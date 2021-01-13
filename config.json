@@ -1,0 +1,8 @@
+{
+    "timeout_reg_width": 32,
+    "limit_reg_width": 32,
+    "port_number": 32,
+    "allow_loopback_routing": true,
+    "port0_rx_fifo_address_width": 8,
+    "port0_tx_fifo_address_width": 8
+}

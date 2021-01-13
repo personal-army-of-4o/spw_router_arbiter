@@ -1,25 +1,22 @@
 library ieee;
 use ieee.std_logic_1164.all;
+library work;
+use work.config.all;
 
 
 entity spw_router_arbiter is
-    generic (
-        gTx_fifo_address_width: natural;
-        gRx_fifo_address_width: natural;
-        gAllow_backroute: boolean -- allow a pkg to be routed to source port
-    );
     port (
         iClk: in std_logic;
         iReset: in std_logic;
 
-        oTimeout_ticks: out std_logic_vector; -- len = port_num*timeout_width
-        oLimit: out std_logic_vector; -- len = port_num*limit_width
-        iRequest_mux: in std_logic_vector; -- len = port_num
-        iPath: in std_logic_vector; -- len = port_num*8
-        oGranted: out std_logic_vector; -- len = port_num
-        oDiscard: out std_logic_vector; -- len = port_num
-        oMux_en: out std_logic_vector; -- len = port_num
-        oMux_onehot: out std_logic_vector; -- len = port_num*port_num
+        oTimeout_ticks: out std_logic_vector (cPort_num*cTimeout_ticks_width-1 downto 0); -- len = port_num*timeout_width
+        oLimit: out std_logic_vector (cPort_num*cLimit_width-1 downto 0); -- len = port_num*limit_width
+        iRequest_mux: in std_logic_vector (cPort_num-1 downto 0); -- len = port_num
+        iPath: in std_logic_vector (cPort_num*8-1 downto 0); -- len = port_num*8
+        oGranted: out std_logic_vector (cPort_num-1 downto 0); -- len = port_num
+        oDiscard: out std_logic_vector (cPort_num-1 downto 0); -- len = port_num
+        oMux_en: out std_logic_vector (cPort_num-1 downto 0); -- len = port_num
+        oMux_onehot: out std_logic_vector (cPort_num*cPort_num-1 downto 0); -- len = port_num*port_num
 
         -- internal port
         iValid: in std_logic;
@@ -143,8 +140,8 @@ begin
 
     fifos: port0_fifo_block
         generic map (
-            gTx_fifo_address_width => gTx_fifo_address_width,
-            gRx_fifo_address_width => gRx_fifo_address_width
+            gTx_fifo_address_width => cTx_fifo_address_width,
+            gRx_fifo_address_width => cRx_fifo_address_width
         )
         port map (
             iClk => iClk,
@@ -179,7 +176,7 @@ begin
 
     regs_device: spw_router_regs_device
         generic map (
-            gAllow_backroute => gAllow_backroute
+            gAllow_backroute => cAllow_loopback_routing
         )
         port map (
             iClk => iClk,

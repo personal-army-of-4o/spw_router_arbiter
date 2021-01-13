@@ -1,0 +1,33 @@
+env:
+  global:
+    - IMG=ghdl/synth
+    - TAG=formal
+    - SCRIPTDIR=buildscripts
+    - BUILDSCRIPT=synth.bash
+    - UPLOADSCRIPT=upload.bash
+    - WORKDIR=/mnt/data
+
+services:
+  - docker
+
+before_install:
+  - docker pull $IMG:$TAG
+
+
+# Here are the list of run scripts of different DUTs/testcases
+script:
+    # Testing the installation of the ghdl
+  - docker run -t $IMG:$TAG ghdl --version
+  
+    # Mount the repo to docker, and run the hello world example
+  - > 
+    docker run -t -v `pwd`:$WORKDIR $IMG:$TAG
+    /bin/bash -c "cd $WORKDIR; bash $WORKDIR/$SCRIPTDIR/$BUILDSCRIPT"
+
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: bash ./$SCRIPTDIR/$UPLOADSCRIPT
+  on:
+    branch: unitize
+

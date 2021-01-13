@@ -1,0 +1,8 @@
+./hdl/src/port0_rx_fifo.vhd
+./hdl/src/pkg/config.vhd
+./hdl/src/spw_router_arbiter.vhd
+./hdl/src/port0_fifo_block.vhd
+./hdl/src/spw_router_regs_device.vhd
+./hdl/src/port0_tx_fifo.vhd
+./JSON-for-VHDL/src/Encodings.pkg.vhdl
+./JSON-for-VHDL/src/JSON.pkg.vhdl

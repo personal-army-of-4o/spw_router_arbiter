@@ -1,0 +1,6 @@
+[submodule "JSON-for-VHDL"]
+	path = JSON-for-VHDL
+	url = http://github.com/personal-army-of-4o/JSON-for-VHDL.git
+[submodule "buildscripts"]
+	path = buildscripts
+	url = http://github.com/personal-army-of-4o/buildscripts.git
