@@ -114,6 +114,19 @@ architecture v1 of spw_router_arbiter is
         );
     end component;
 
+    component spw_router_brain
+        port (
+            iClk: in std_logic;
+            iReset: in std_logic;
+
+            oRd: std_logic_vector (cRegs_num-1 downto 0); -- onehot rd
+            iRd_data: std_logic_vector (cRegs_num*32-1 downto 0);
+
+            oWr: std_logic_vector (cRegs_num-1 downto 0); -- onehot wr
+            oWr_data: std_logic_vector (cRegs_num*32-1 downto 0)
+        );
+    end component;
+
     signal sTxo: std_logic;
     signal sTxe: std_logic;
     signal sTxh: std_logic;
@@ -214,6 +227,18 @@ begin
 
             iWr => sWr,
             iWr_data => sWr_data
+        );
+
+    brain: spw_router_brain
+        port map (
+            iClk => iClk,
+            iReset => iReset,
+
+            oRd => sRd,
+            iRd_data => sRd_data,
+
+            oWr => sWr,
+            oWr_data => sWr_data
         );
 
 end v1;
